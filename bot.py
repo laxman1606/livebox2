@@ -4,7 +4,7 @@ import asyncio
 import urllib.parse
 from aiohttp import web
 
-# --- ðŸ› ï¸ LOOP FIX (ISKO SABSE UPAR RAKHNA ZARURI HAI) ---
+# --- 🛠️ LOOP FIX (ISKO SABSE UPAR RAKHNA ZARURI HAI) ---
 # Ye Pyrogram ko crash hone se bachayega
 try:
     loop = asyncio.get_running_loop()
@@ -15,7 +15,7 @@ except RuntimeError:
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-# --- âš™ï¸ CONFIGURATION ---
+# --- ⚙️ CONFIGURATION ---
 API_ID = int(os.environ.get("API_ID", "0")) 
 API_HASH = os.environ.get("API_HASH", "")
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
@@ -45,7 +45,7 @@ routes = web.RouteTableDef()
 
 @routes.get("/")
 async def status_check(request):
-    return web.Response(text="âœ… Bot & Server Online!")
+    return web.Response(text="✅ Bot & Server Online!")
 
 @routes.get("/stream/{chat_id}/{message_id}")
 async def stream_handler(request):
@@ -92,7 +92,7 @@ async def stream_handler(request):
 @app.on_message(filters.command("start"))
 async def start(client, message):
     await message.reply_text(
-        f"ðŸ‘‹ **Bot Started!**\n\nServer Link: `{PUBLIC_URL}`\nWaiting for files..."
+        f"👋 **Bot Started!**\n\nServer Link: `{PUBLIC_URL}`\nWaiting for files..."
     )
 
 @app.on_message(filters.private & (filters.video | filters.document | filters.audio))
@@ -111,11 +111,11 @@ async def media_handler(client, message):
         web_link = f"{WEB_APP_URL}/?src={stream_link}&name={urllib.parse.quote(file_name)}"
 
         await message.reply_text(
-            f"âœ… **Ready to Watch!**\n\n"
-            f"ðŸ“‚ `{file_name}`\n\n"
-            f"ðŸ”— **Stream Link:**\n`{stream_link}`",
+            f"✅ **Ready to Watch!**\n\n"
+            f"📂 `{file_name}`\n\n"
+            f"🔗 **Stream Link:**\n`{stream_link}`",
             reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton("â–¶ï¸ Watch Online", url=web_link)]
+                [InlineKeyboardButton("▶️ Watch Online", url=web_link)]
             ])
         )
     except Exception as e:
@@ -129,11 +129,11 @@ async def start_services():
     await app_runner.setup()
     site = web.TCPSite(app_runner, HOST, PORT)
     await site.start()
-    logger.info(f"âœ… Web Server running on Port {PORT}")
+    logger.info(f"✅ Web Server running on Port {PORT}")
 
     # Bot Start
     await app.start()
-    logger.info("âœ… Telegram Bot Started")
+    logger.info("✅ Telegram Bot Started")
     
     # Keep alive
     await asyncio.Event().wait()
